@@ -41,7 +41,7 @@ function Delete(){
                 $fileOrDir = $_GET['delete'];
                 $fileOrDir = GetWorkingDir() . $fileOrDir;
 
-                if(strpos($fileOrDir,'resources') == false && strpos($fileOrDir,'now.json') && strpos($fileOrDir,'index.php') == false && strpos($fileOrDir,'../') == false && strpos($fileOrDir,'InstruccionesParaElEditor.txt') && strpos($fileOrDir,'ParaJuanMedina.txt')){
+                if(strpos($fileOrDir,'resources') == false && strpos($fileOrDir,'index.php') == false && strpos($fileOrDir,'../') == false && strpos($fileOrDir,'InstruccionesParaElEditor.txt') == false && strpos($fileOrDir,'ParaJuanMedina.txt') == false){
                     if(is_dir($fileOrDir)){
                         removeDir($fileOrDir);
                     }else{
@@ -140,13 +140,29 @@ function listFiles($dir){
         $path = "./$dir";
     }else{ $path = './';}
     if(is_dir($path)){
-        $sanitized = array_diff(scandir($path),['.','..','','resources','index.php','now.json']);
+        $sanitized = array_diff(scandir($path),['.','..','','.git','resources','index.php','now.json','.composer','.heroku','.profile.d','Procfile','composer.json','vendor']);
         foreach ($sanitized as $file){
            array_push($files,$file);
         }       
         return $files;
     }
 
+}
+
+function Download(){
+    if(isset($_GET['send'])){
+        $filename= GetWorkingDir() . $_GET['send'];
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filename));
+        flush(); // Flush system output buffer
+        readfile($filename);
+        die();
+    }
 }
 
 function GetWorkingDir(){
@@ -173,6 +189,7 @@ function WriteWorkingDir($dirname){
 
     Create();
     Delete();
+    Download();
     Save();
     $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
     if($pageWasRefreshed ) {
@@ -232,12 +249,12 @@ function WriteWorkingDir($dirname){
             
             foreach(listFiles(GetWorkingDir()) as $file){ 
                 $fileAndIcon = (is_dir(GetWorkingDir() . $file)) ? "<i class='material-icons'>folder</i>" . $file : "<i class='material-icons'>description</i> $file ";
-
+                $isFolder = !is_dir(GetWorkingDir() . $file) ? "<a href = './?send=$file' class='icon download'><i class='material-icons'>get_app</i></a>": "";
                 echo"<li>
                         <div class= 'icon-holder'>
                             <a href ='./?open=$file' class='icon open' >$fileAndIcon</a>
                             <div class='icon-holder'>
-                                <a class='icon download'><i class='material-icons'>get_app</i></a>
+                                $isFolder
                                 <a href= './?delete=$file' class='icon ' ><i class='material-icons delete'>delete</i></a>
                             </div>
                         </div>
