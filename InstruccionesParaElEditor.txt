@@ -1,0 +1,22 @@
+* Presionar en un archivo si lo quiere leer 💾
+
+* Si lo quiere descargar o borrar presionar en los iconos correspondientes ⬇ 🗑
+
+* Para crear una carpeta o un archivo solo se debe indicar la extension (.txt o cualquier otro tipo de extension) 💾 ya que el programa automaticamente determina si el archivo tiene una extension
+y lo clasifica como tal al momento de crear EJ:
+
+  minuevacreacion - Carpeta 📁
+  minuevacreacion.txt - Archivo 💾
+
+* Se pueden crear rutas dentro de rutas y no hay ningun problema 👌
+
+* Se puede travesar de regreso por los paths usando ../ las rutas son
+almacenadas en un archivo para asegurar su persistencia🏃‍♂️
+
+* Existen varios nombres reservados
+ -index.php 
+ -resources
+ -../
+El programa arrojara un error si se intenta crear un archivo o carpetas con esos nombres ⛔
+
+* Para guardar presionar el boton en la parte inferior izquierda ➡➡
