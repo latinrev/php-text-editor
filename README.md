@@ -7,8 +7,8 @@ PHP based text editor with file and directory management system
 
 * Create a folder or file by simply specifying an extension 💾 the program will automatically tell if it is a file or a folder
 
-  newfolder - Carpeta 📁
-  newfolder.txt - Archivo 💾
+  newfolder - Folder 📁
+  newfolder.txt - File 💾
 
 * It can create nested folders 👌
 
